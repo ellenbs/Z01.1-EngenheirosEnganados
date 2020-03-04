@@ -38,7 +38,11 @@ architecture rtl of TopLevel is
 -- implementacao
 ---------------
 begin
+<<<<<<< HEAD
 
   LEDR(0) <= SW(0);
+=======
+  LEDR(0) <= SW(0);          
+>>>>>>> 5fcf5ba52b4ba780046ee12820c4fba2806c09b0
 
 end rtl;

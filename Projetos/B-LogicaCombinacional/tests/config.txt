@@ -9,7 +9,11 @@
 ######################################
 
 #nand.vhd
+<<<<<<< HEAD
 #Or16.vhd            
+=======
+Or16.vhd            
+>>>>>>> 5fcf5ba52b4ba780046ee12820c4fba2806c09b0
 #Nor8Way.vhd
 #And16.vhd
 #Not16.vhd
