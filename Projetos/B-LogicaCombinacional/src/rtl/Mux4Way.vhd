@@ -19,5 +19,6 @@ begin
 			b when "01",
 			c when "10",
 			d when others;
+			
 	
 end architecture;
