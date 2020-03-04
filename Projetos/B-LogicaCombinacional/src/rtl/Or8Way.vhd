@@ -19,4 +19,5 @@ begin
 
 	q <= a or b or c or d or e or f or g or h;
 
+	
 end architecture;
