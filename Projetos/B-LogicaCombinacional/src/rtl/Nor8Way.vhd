@@ -16,6 +16,6 @@ end entity;
 
 architecture arch of Nor8Way is
 begin
-
+	q <= nor(a,b,c,d,e,f,g,h);
 
 end architecture;
