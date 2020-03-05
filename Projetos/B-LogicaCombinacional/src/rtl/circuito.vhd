@@ -10,6 +10,6 @@ end entity;
 architecture arch of circuito is
 
 begin
-    x <= not a;
+    x <= (((not A) and B) and C);
 
 end architecture;
