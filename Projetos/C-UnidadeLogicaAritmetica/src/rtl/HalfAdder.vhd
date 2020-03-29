@@ -22,4 +22,7 @@ architecture rtl of HalfAdder is
 begin
   -- Implementação vem aqui!
 
+  soma <= a XOR b;
+  vaium <= a AND b;
+  
 end architecture;
