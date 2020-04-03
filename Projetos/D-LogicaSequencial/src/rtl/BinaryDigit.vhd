@@ -10,9 +10,7 @@ entity BinaryDigit is
 		clock:   in STD_LOGIC;
 		input:   in STD_LOGIC;
 		load:    in STD_LOGIC;
-		output: out STD_LOGIC;
-		clear:  in std_logic;
-			preset: in std_logic
+		output: out STD_LOGIC
 	);
 end entity;
 
@@ -39,7 +37,8 @@ architecture arch of BinaryDigit is
 	signal dffout,muxout: std_logic;
 
 begin
-	mux : Mux2Way port map (input, dffout,load, muxout);
-	flipflop : FlipFlopD port map(clock, muxout, clear, preset, output);
+	mux : Mux2Way port map (dffout, input,load, muxout);
+	flipflop : FlipFlopD port map(clock, muxout, '0', '0', dffout);
+	output <= dffout;
 end architecture;
 
