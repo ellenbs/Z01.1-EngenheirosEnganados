@@ -1,4 +1,4 @@
--- Elementos de Sistemas
+	-- Elementos de Sistemas
 -- by Luciano Soares
 -- Register16.vhd
 
@@ -26,6 +26,8 @@ architecture arch of Register16 is
 	end component;
 
 begin
+	r1 : Register8 port map (clock, input(15 downto 8), load, output(15 downto 8));
+	r2 : Register8 port map (clock, input(7 downto 0), load, output(7 downto 0));
 
 
 end architecture;
