@@ -60,5 +60,18 @@ architecture arch of Ram64 is
 
 begin
 
+	Dmuxway: DMux8Way port map (load, address(5 downto 3), load0, load1, load2, load3, load4, load5, load6, load7);
+
+	-- Ram64
+	ram8_0: Ram8 port map(clock, input, load0, address(2 downto 0), output0);
+	ram8_1: Ram8 port map(clock, input, load1, address(2 downto 0), output1);
+	ram8_2: Ram8 port map(clock, input, load2, address(2 downto 0), output2);
+	ram8_3: Ram8 port map(clock, input, load3, address(2 downto 0), output3);
+	ram8_4: Ram8 port map(clock, input, load4, address(2 downto 0), output4);
+	ram8_5: Ram8 port map(clock, input, load5, address(2 downto 0), output5);
+	ram8_6: Ram8 port map(clock, input, load6, address(2 downto 0), output6);
+	ram8_7: Ram8 port map(clock, input, load7, address(2 downto 0), output7);
+
+	Muxway: Mux8Way16 port map(output0, output1, output2, output3, output4, output5, output6, output7, address(5 downto 3), output);
 
 end architecture;
