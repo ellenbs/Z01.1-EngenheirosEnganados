@@ -52,5 +52,9 @@ script:
   - python3 Projetos/A-AmbienteDesenvolvimento/testeAmbienteDesenvolvimento.py
   - python3 Projetos/B-LogicaCombinacional/testeLogicaCombinacional.py 
   - python3 Projetos/C-UnidadeLogicaAritmetica/testeULA.py
+<<<<<<< HEAD
   - python3 Projetos/E-Assembly/testeAssembly.py
+=======
+  - python3 Projetos/D-LogicaSequencial/testeLogicaSequencial.py
+>>>>>>> 74b392530fc9f09ffc1748a465eb197a240283ca
 
