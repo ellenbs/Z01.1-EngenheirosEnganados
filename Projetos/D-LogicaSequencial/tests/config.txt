@@ -14,7 +14,7 @@
 Ram4K.vhd
 
 # Rubrica A
-#FlipFlopT.vhd
+FlipFlopT.vhd
 #FlipFlopJK.vhd
 #CounterDown.vhd
  
