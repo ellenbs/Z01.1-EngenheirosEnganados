@@ -4,7 +4,7 @@
 ##########################
 # exemplos
 ##########################
-#R-LCD.nasm 1 4000
+R-LCD.nasm 1 4000
 
 ##########################
 # conceito C
@@ -15,8 +15,8 @@
 #mov.nasm 1 1000
 #max.nasm 2 10000
 #abs.nasm 2 1000
-isEven.nasm 2 1000
-#mult.nasm 1 10000
+#isEven.nasm 2 1000
+mult.nasm 1 10000
 #mod.nasm 2 10000
 #div.nasm  2 10000
 
@@ -35,4 +35,5 @@ isEven.nasm 2 1000
 #matrizDetermnante.nasm 1 2000
 #stringTrim.nasm
 #SWeLED.nasm
+
 
