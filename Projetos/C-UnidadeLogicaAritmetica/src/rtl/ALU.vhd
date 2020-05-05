@@ -33,11 +33,16 @@ entity ALU is
 			nx:    in STD_LOGIC;                     -- inverte a entrada x
 			zy:    in STD_LOGIC;                     -- zera a entrada y
 			ny:    in STD_LOGIC;                     -- inverte a entrada y
-			f:     in STD_LOGIC;                     -- se 0 calcula x & y, senão x + y
+			f:     in  STD_LOGIC_VECTOR(1 downto 0);              -- se 0 calcula x & y, senão x + y
 			no:    in STD_LOGIC;                     -- inverte o valor da saída
+			size  : in  STD_LOGIC_VECTOR(3 downto 0);
+			dir : in STD_LOGIC;
+
 			zr:    out STD_LOGIC;                    -- setado se saída igual a zero
 			ng:    out STD_LOGIC;                    -- setado se saída é negativa
-			saida: out STD_LOGIC_VECTOR(15 downto 0) -- saída de dados da ALU
+			saida: out STD_LOGIC_VECTOR(15 downto 0); -- saída de dados da ALU
+			carry : out std_logic
+			
 	);
 end entity;
 
@@ -64,7 +69,8 @@ architecture  rtl OF alu is
 		port(
 			a   :  in STD_LOGIC_VECTOR(15 downto 0);
 			b   :  in STD_LOGIC_VECTOR(15 downto 0);
-			q   : out STD_LOGIC_VECTOR(15 downto 0)
+			q   : out STD_LOGIC_VECTOR(15 downto 0);
+			c : out std_logic
 		);
 	end component;
 
@@ -84,16 +90,40 @@ architecture  rtl OF alu is
     );
 	end component;
 
-	component Mux16 is
+
+	component Mux4Way16 is
+		port ( 
+				a:   in  STD_LOGIC_VECTOR(15 downto 0);
+				b:   in  STD_LOGIC_VECTOR(15 downto 0);
+				c:   in  STD_LOGIC_VECTOR(15 downto 0);
+				d:   in  STD_LOGIC_VECTOR(15 downto 0);
+				sel: in  STD_LOGIC_VECTOR(1 downto 0);
+				q:   out STD_LOGIC_VECTOR(15 downto 0));
+	end component;
+
+
+
+	component Xor16 is
 		port (
 			a:   in  STD_LOGIC_VECTOR(15 downto 0);
 			b:   in  STD_LOGIC_VECTOR(15 downto 0);
-			sel: in  STD_LOGIC;
 			q:   out STD_LOGIC_VECTOR(15 downto 0)
 		);
 	end component;
 
-   SIGNAL zxout,zyout,nxout,nyout,andout,adderout,muxout,precomp: std_logic_vector(15 downto 0);
+	component BarrelShifter16 is
+		port ( 
+				a:    in  STD_LOGIC_VECTOR(15 downto 0);   -- input vector
+				dir:  in  std_logic;                       -- 0=>left 1=>right
+				size: in  std_logic_vector(3 downto 0);    -- shift amount
+				q:    out STD_LOGIC_VECTOR(15 downto 0));  -- output vector (shifted)
+	end component;
+
+
+
+
+	SIGNAL carryout : std_logic;
+   SIGNAL zxout,zyout,nxout,nyout,andout,adderout ,xorout, muxout,precomp, shiftout: std_logic_vector(15 downto 0);
 
 begin
   -- Implementação vem aqui!
@@ -103,11 +133,14 @@ begin
 
    zeraY : zerador16 port map (zy, y, zyout);
    inverteY : inversor16 port map (ny, zyout, nyout);
+
+   BarrelShifterX : BarrelShifter16 port map (nxout, dir, size, shiftout);
  
    andXY : And16 port map (nxout, nyout, andout);
-   addXY : Add16 port map (nxout, nyout, adderout);--, carry);
+   addXY : Add16 port map (nxout, nyout, adderout, carry);
+   xorXY : Xor16 port map (nxout, nyout, xorout);
  
-   mux : Mux16 port map (andout, adderout, f, muxout);
+   mux4way : Mux4Way16 port map (andout, adderout,xorout,shiftout, f, muxout);
  --- mux : Mux3Way16 port map (andout, adderout, f, muxout);
  
    inverteFinal : inversor16 port map (no, muxout, precomp);
@@ -115,7 +148,7 @@ begin
    Comparador : comparador16 port map (precomp, zr, ng);
  
    saida <= precomp;
-   --c <= carry;
+   carry <= carryout;
  
  
  
