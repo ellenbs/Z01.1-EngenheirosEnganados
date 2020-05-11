@@ -26,4 +26,32 @@
 ;  RAM[14] = `?`
 ;  RAM[15] = NULL = 0x0000
 
+; 0 na R0 (contador)
+leaw $0, %A
+movw %A, (%A)
+LOOP:
 
+; comeca na R8
+leaw $8, %A
+movw %A, %D
+; soma o contador com 8 --> encontra posicao na RAM
+leaw $0, %A
+addw (%A), %D, %A
+; valor da RAM em D
+movw (%A), %D
+
+; ve se o valor da RAM e zero --> se sim, acabou
+leaw $END, %A
+je
+nop
+
+; incrementa o contador e salva em R0
+leaw $0, %A
+movw (%A), %D
+incw %D
+movw %D, (%A)
+leaw $LOOP, %A
+jmp
+nop
+
+END:
