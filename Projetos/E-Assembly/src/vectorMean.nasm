@@ -19,3 +19,88 @@
 ; RAM[7]:  1  | RAM[7]:  1 |
 ; RAM[8]:  4  | RAM[8]:  4 -
 ; ------------------------------------
+
+
+leaw $4, %A
+movw %A, %D
+
+leaw $4, %A
+addw (%A), %D, %D
+
+leaw $3, %A
+movw %D, (%A)  ; move tamanho do vetor para a RAM[3]
+
+leaw $4, %A
+movw (%A), %D
+
+leaw $2, %A
+movw %D, (%A)
+
+
+WHILE:
+leaw $2, %A
+movw (%A), %D
+decw %D
+movw %D, (%A)
+
+leaw $END, %A
+jl
+nop
+
+leaw $3, %A
+movw (%A), %A
+
+movw (%A), %D
+
+leaw $1, %A
+addw (%A), %D, %D
+movw %D, (%A)         ; RAM[1] += RAM[x]
+
+leaw $3, %A
+movw (%A), %D
+decw %D
+movw %D, (%A)
+
+leaw #WHILE, %A
+jmp
+nop
+
+END:
+
+;0 - 1
+;1 - 4
+;2 - 0 
+
+
+leaw $0, %A
+movw $1, (%A)
+
+leaw $1, %A
+movw (%A), %D ; D = RAM[0]
+
+leaw $3, %A
+movw %D, (%A) ; RAM[3] = RAM[0]
+
+WHILED:
+leaw $3, %A
+movw (%A), %D
+
+leaw $4, %A
+subw %D, (%A), %D ; RAM[3] - RAM[1]
+leaw $3, %A
+movw %D, (%A)
+
+leaw $ENDD, %A
+jle
+nop
+
+leaw $0, %A
+movw (%A), %D
+incw %D
+movw %D, (%A) ; RAM[2] += 1
+
+leaw $WHILED, %A
+jmp
+nop
+
+ENDD:
