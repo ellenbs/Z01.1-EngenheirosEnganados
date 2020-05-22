@@ -48,6 +48,8 @@ if __name__ == "__main__":
     tstUla.addSrc(tstCpu.work)
     tstSeq.addSrc(tstCpu.work)
     tstCpu.add(tstCpu.work)
+
+    tstLogiComb.addSrc(tstCpu.work)
     if tstCpu.work.run() is -1:
         noti.error('\n Erro de compilação VHDL')
         sys.exit(-1)
