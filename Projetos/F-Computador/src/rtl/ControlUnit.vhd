@@ -55,5 +55,3 @@ begin
     
 
 end architecture;
-
-

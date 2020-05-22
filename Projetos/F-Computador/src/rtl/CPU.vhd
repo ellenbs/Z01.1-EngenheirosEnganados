@@ -98,13 +98,6 @@ architecture arch of CPU is
   signal saida: STD_LOGIC_VECTOR(17 downto 0);
   signal s_ALUout: STD_LOGIC_VECTOR(15 downto 0);
   signal s_pcout: STD_LOGIC_VECTOR(15 downto 0);
-<<<<<<< HEAD
-
-begin
-
-
-end architecture;
-=======
   signal entrada: STD_LOGIC_VECTOR(15 downto 0);
   signal increment: STD_LOGIC;
   
@@ -133,5 +126,3 @@ end architecture;
   pcout <= s_pcout(14 downto 0);
   
   end architecture;
- 
->>>>>>> 2a7afd4d0614f4bf1b00a63bf68e45165b932db9
