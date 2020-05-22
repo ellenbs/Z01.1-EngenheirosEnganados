@@ -26,7 +26,7 @@ entity MemoryIO is
         LCD_ON       : OUT   STD_LOGIC := '1';	-- liga e desliga o LCD
         LCD_INIT_OK  : OUT   STD_LOGIC;
 
-        -- Switchs
+        -- I/Os
         SW  : in std_logic_vector(9 downto 0);
         LED : OUT std_logic_vector(9 downto 0)
 
@@ -78,6 +78,7 @@ ARCHITECTURE logic OF MemoryIO IS
                 q   : out STD_LOGIC_VECTOR (15 downto 0));    -- output
   end component;
 
+<<<<<<< HEAD
 
   component DMux4Way is
 	port ( 
@@ -90,6 +91,9 @@ ARCHITECTURE logic OF MemoryIO IS
 end component;
 
 component Register16 is
+=======
+  component Register16 is
+>>>>>>> upstream/master
     port(
       clock:   in STD_LOGIC;
       input:   in STD_LOGIC_VECTOR(15 downto 0);
@@ -103,6 +107,7 @@ component Register16 is
   SIGNAL LOAD_LED         : STD_LOGIC := '0';
 
   SIGNAL OUTPUT_RAM       : STD_LOGIC_VECTOR(15 downto 0);
+<<<<<<< HEAD
   SIGNAL OUTPUT_DISPLAY   : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL MUX_SEL          : STD_LOGIC_VECTOR(1 downto 0);
   SIGNAL MUX_SEL1         : STD_LOGIC_VECTOR(15 downto 0);
@@ -127,7 +132,21 @@ component Register16 is
     SIGNAL SW16 : STD_LOGIC_VECTOR(15 downto 0);
     SIGNAL LED16 : STD_LOGIC_VECTOR(15 downto 0);
     
+=======
+	SIGNAL SW16 : STD_LOGIC_VECTOR(15 downto 0);
+	SIGNAL LED16 : STD_LOGIC_VECTOR(15 downto 0);
+
+>>>>>>> upstream/master
 BEGIN
+
+  RAM: RAM16K
+    PORT MAP(
+      address => ADDRESS(13 downto 0),
+      clock		=> CLK_FAST,
+      data		=> INPUT,
+      wren		=> LOAD_RAM,
+      q		    => OUTPUT_RAM
+      );
 
     DISPLAY: Screen  port map (
              RST          => RST,
@@ -147,13 +166,19 @@ BEGIN
              LCD_WR_N 	  => LCD_WR_N
     );
 
+<<<<<<< HEAD
     reg:  Register16 port map(
+=======
+    reg:  Register16
+      port map(
+>>>>>>> upstream/master
         clock => CLK_SLOW,
         input => INPUT,
         load  => LOAD_LED,
         output => LED16
         );
 
+<<<<<<< HEAD
     ram: RAM16K port map(
             address	=> ADDRESS(13 DOWNTO 0),
             clock	 => CLK_FAST,
@@ -163,6 +188,8 @@ BEGIN
         );
 
 
+=======
+>>>>>>> upstream/master
     ----------------------------------------
     -- Controla LOAD do display e da ram e LED ! --
     ----------------------------------------
@@ -185,6 +212,7 @@ BEGIN
     ----------------------------------------
     -- precisar ser: RAM ou SW16
     -- OUTPUT <= ?????? ;
+<<<<<<< HEAD
     Mux: Mux4Way16 port map(
         sel => MUX_SEL,
         a   => SW16,
@@ -211,6 +239,9 @@ DMUX_SEL <= "00" when (ADDRESS < "100000000000000") else
             "01" when ADDRESS = "101001011000000" else
             "10" when (ADDRESS > "011111111111111" and ADDRESS < "101001011000000") else
             "11";
+=======
+
+>>>>>>> upstream/master
 
 END logic;
 
