@@ -75,7 +75,6 @@ architecture arch of CPU is
       loadA, loadD, loadM, loadPC : out STD_LOGIC
       );
   end component;
-
   signal c_muxALUI_A: STD_LOGIC;
   signal c_muxAM: STD_LOGIC;
   signal c_zx: STD_LOGIC;
@@ -89,15 +88,42 @@ architecture arch of CPU is
   signal c_loadPC: STD_LOGIC;
   signal c_zr: std_logic := '0';
   signal c_ng: std_logic := '0';
-
+  
+  
+  
   signal s_muxALUI_Aout: STD_LOGIC_VECTOR(15 downto 0);
   signal s_muxAM_out: STD_LOGIC_VECTOR(15 downto 0);
   signal s_regAout: STD_LOGIC_VECTOR(15 downto 0);
   signal s_regDout: STD_LOGIC_VECTOR(15 downto 0);
+  signal saida: STD_LOGIC_VECTOR(17 downto 0);
   signal s_ALUout: STD_LOGIC_VECTOR(15 downto 0);
-
   signal s_pcout: STD_LOGIC_VECTOR(15 downto 0);
-
-begin
-
-end architecture;
+  signal entrada: STD_LOGIC_VECTOR(15 downto 0);
+  signal increment: STD_LOGIC;
+  
+  
+  
+  begin
+  
+  
+  
+  Control_unit: ControlUnit port map(instruction, c_zr, c_ng, c_muxALUI_A, c_muxAM, c_zx, c_nx, c_zy, c_ny, c_f, c_no,c_loadA, c_loadD, writeM, c_loadPC); --instruction, loadM
+  
+  mux_ALU: Mux16 port map(s_ALUout, instruction(15 downto 0), c_muxALUI_A, s_muxALUI_Aout); --instruction, sel
+  
+  mux_register: Mux16 port map(s_regAout, inM, c_muxAM , s_muxAM_out); --inM, sel
+  
+  ULA: ALU port map(s_regDout, s_muxAM_out,c_zx, c_nx, c_zy, c_ny, c_f, c_no, c_zr, c_ng, s_ALUout);
+  
+  Program_Counter: pc port map(clock, increment, c_loadPC, reset, s_regAout, s_pcout); --clock, increment, reset
+  
+  Register_A: Register16 port map(clock, s_muxALUI_Aout, c_loadA, s_regAout); --clock
+  
+  Register_D: Register16 port map(clock, s_ALUout, c_loadD, s_regDout); --clock
+  
+  addressM <= s_regAout(14 downto 0);
+  outM <= s_ALUout;
+  pcout <= s_pcout(14 downto 0);
+  
+  end architecture;
+ 
