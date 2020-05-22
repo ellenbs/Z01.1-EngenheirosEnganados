@@ -78,17 +78,42 @@ ARCHITECTURE logic OF MemoryIO IS
                 q   : out STD_LOGIC_VECTOR (15 downto 0));    -- output
   end component;
 
+
+  component DMux4Way is
+	port ( 
+			a:   in  STD_LOGIC;
+			sel: in  STD_LOGIC_VECTOR(1 downto 0);
+			q0:  out STD_LOGIC;
+			q1:  out STD_LOGIC;
+			q2:  out STD_LOGIC;
+			q3:  out STD_LOGIC);
+end component;
+
+component Register16 is
+    port(
+      clock:   in STD_LOGIC;
+      input:   in STD_LOGIC_VECTOR(15 downto 0);
+      load:    in STD_LOGIC;
+      output: out STD_LOGIC_VECTOR(15 downto 0)
+      );
+  end component;
+
   SIGNAL LOAD_RAM         : STD_LOGIC := '0';
   SIGNAL LOAD_DISPLAY     : STD_LOGIC := '0';
+  SIGNAL LOAD_LED         : STD_LOGIC := '0';
 
   SIGNAL OUTPUT_RAM       : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL OUTPUT_DISPLAY   : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL MUX_SEL          : STD_LOGIC_VECTOR(1 downto 0);
-  SIGNAL MUX_SEL1         : STD_LOGIC;
-  SIGNAL MUX_SEL2         : STD_LOGIC;
+  SIGNAL MUX_SEL1         : STD_LOGIC_VECTOR(15 downto 0);
+  SIGNAL MUX_SEL2         :STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL KEY              : STD_LOGIC_VECTOR(15 downto 0);
   SIGNAL s_key_code       : STD_LOGIC_VECTOR(6 DOWNTO 0);
   SIGNAL s_key_new        : STD_LOGIC;
+
+  SIGNAL DMUX_SEL          : STD_LOGIC_VECTOR(1 downto 0);
+  SIGNAL DMUX_SEL4        : STD_LOGIC;
+
 
 	SIGNAL RST_INTERNAL     : STD_LOGIC := '1';
 
@@ -99,8 +124,9 @@ ARCHITECTURE logic OF MemoryIO IS
 	SIGNAL INPUT_SCREEN     : STD_LOGIC_VECTOR(15 downto 0);
 	SIGNAL ADDRESS_SCREEN   : STD_LOGIC_VECTOR(14 downto 0);
 
-	SIGNAL SW16 : STD_LOGIC_VECTOR(15 downto 0);
-
+    SIGNAL SW16 : STD_LOGIC_VECTOR(15 downto 0);
+    SIGNAL LED16 : STD_LOGIC_VECTOR(15 downto 0);
+    
 BEGIN
 
     DISPLAY: Screen  port map (
@@ -121,4 +147,70 @@ BEGIN
              LCD_WR_N 	  => LCD_WR_N
     );
 
+    reg:  Register16 port map(
+        clock => CLK_SLOW,
+        input => INPUT,
+        load  => LOAD_LED,
+        output => LED16
+        );
+
+    ram: RAM16K port map(
+            address	=> ADDRESS(13 DOWNTO 0),
+            clock	 => CLK_FAST,
+            data	=> INPUT,
+            wren	=> LOAD_RAM ,
+            q		=> OUTPUT_RAM
+        );
+
+
+    ----------------------------------------
+    -- Controla LOAD do display e da ram e LED ! --
+    ----------------------------------------
+    --LOAD_DISPLAY <= ??????; 
+    --LOAD_RAM     <= ??????; 
+    --LOAD_LED     <= ??????; 
+
+    ----------------------------------------
+    -- SW e LED                           --
+    ----------------------------------------
+    -- Compatibilidade de tamanho
+    LED <= LED16(9 downto 0);
+
+    -- Compatibilidade de tamanho
+    SW16(15 downto 10) <= (others => '0');
+    SW16( 9 DOWNTO  0) <= SW;
+
+    ----------------------------------------
+    -- SAIDA do memory I/O                --
+    ----------------------------------------
+    -- precisar ser: RAM ou SW16
+    -- OUTPUT <= ?????? ;
+    Mux: Mux4Way16 port map(
+        sel => MUX_SEL,
+        a   => SW16,
+        b   => OUTPUT_RAM,
+        c   => MUX_SEL1,
+        d   => MUX_SEL2,
+        q   => OUTPUT
+    );
+
+    Dmux: DMux4Way port map(
+    a  =>   LOAD,
+    sel  => DMUX_SEL,
+    q0  => LOAD_RAM,
+    q1  => LOAD_LED,
+    q2  => LOAD_DISPLAY,
+    q3  =>  DMUX_SEL4 
+);    
+
+MUX_SEL <= "00" when ADDRESS = "101001011000001" else
+            "01";
+
+
+DMUX_SEL <= "00" when (ADDRESS < "100000000000000") else
+            "01" when ADDRESS = "101001011000000" else
+            "10" when (ADDRESS > "011111111111111" and ADDRESS < "101001011000000") else
+            "11";
+
 END logic;
+

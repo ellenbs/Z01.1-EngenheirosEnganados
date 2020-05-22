@@ -1,0 +1,51 @@
+
+
+
+
+;2 na R0
+leaw $2, %A
+movw %A, %D
+leaw $0, %A
+movw %D, (%A)
+
+; R2 na R1 (tamanho)
+leaw $2, %A
+movw (%A), %D
+leaw $1, %A
+movw %D, (%A)
+
+WHILE:
+
+; R1 -=1 (decrementa tamanho)
+leaw $1, %A
+movw %A, %D
+subw (%A), %D, %D
+movw %D, (%A)
+
+; se o tamanho for menor q 0, acabou
+leaw $END, %A
+jl
+nop
+
+; R0 +=1  (indice da ram)
+leaw $0, %A
+movw (%A), %D
+incw %D
+movw %D, (%A)
+
+; D= R0-3 (contador)
+leaw $0, %A
+movw (%A), %D
+leaw $3, %A
+subw %D, %A, %D
+
+
+leaw $0, %A
+movw (%A), %A
+movw %D, (%A)
+leaw $WHILE, %A
+jmp
+nop
+END:
+
+
