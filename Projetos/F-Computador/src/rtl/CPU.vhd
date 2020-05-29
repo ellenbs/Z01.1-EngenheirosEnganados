@@ -130,5 +130,6 @@ architecture arch of CPU is
   addressM <= s_regAout(14 downto 0);
   outM <= s_ALUout;
   pcout <= s_pcout(14 downto 0);
-  
+
+
   end architecture;
