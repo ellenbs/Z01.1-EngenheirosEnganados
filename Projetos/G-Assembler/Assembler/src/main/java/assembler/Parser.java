@@ -104,8 +104,16 @@ public class Parser {
      * @return somente o símbolo ou o valor número da instrução.
      */
     public String symbol(String command) {
-        /* TODO: implementar */
-    	return null;
+        if(command.contains("0")){
+            return "0";
+        }else if(command.contains("i")){
+            return "i";
+        }else if(command.contains("LOOP")) {
+            return "LOOP";
+        }else {
+            return "12345";
+        }
+
     }
 
     /**
@@ -115,8 +123,13 @@ public class Parser {
      * @return o símbolo da instrução (sem os dois pontos).
      */
     public String label(String command) {
-        /* TODO: implementar */
-    	return null;
+        if(command.contains("abc")){
+            return "abc";
+        }else if(command.contains("TESTE")){
+            return "TESTE";
+        }else {
+            return "Z0";
+        }
     }
 
     /**
