@@ -38,7 +38,7 @@ architecture tb of tb_ControlUnit is
 
 begin
 
-	uCU: ControlUnit port map(instruction, zr, ng, muxALUI_A, muxAM, zx, nx, zy, ny, f, no, loadA, loadD, loadM, loadPC);
+	uCU: ControlUnit port map(instruction, zr, ng, muxALUI_A, muxAM, registerSmux, zx, nx, zy, ny, f, no, loadA, loadD, loadM, loadPC, loadS);
 
 	clk <= not clk after 100 ps;
 

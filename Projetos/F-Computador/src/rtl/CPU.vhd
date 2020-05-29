@@ -108,8 +108,9 @@ architecture arch of CPU is
   
   begin
   
+  --ControlUnit port map(instruction, zr, ng, muxALUI_A, muxAM, registerSmux, zx, nx, zy, ny, f, no, loadA, loadD, loadM, loadPC, loadS);
 
-  Control_unit: ControlUnit port map(instruction, c_zr, c_ng, c_muxALUI_A, c_muxAM, c_registerSmux, c_zx, c_nx, c_zy, c_ny, c_f, c_no,c_loadA, c_loadD, writeM, c_loadPC, c_loadS); --instruction, loadM
+  Control_unit: ControlUnit port map(instruction, c_zr, c_ng, c_muxALUI_A, c_muxAM, c_registerSmux, c_zx, c_nx, c_zy, c_ny, c_f, c_no, c_loadA, c_loadD, writeM, c_loadPC, c_loadS); --instruction, loadM
   
   mux_ALU: Mux16 port map(s_ALUout, instruction(15 downto 0), c_muxALUI_A, s_muxALUI_Aout); --instruction, sel
   
