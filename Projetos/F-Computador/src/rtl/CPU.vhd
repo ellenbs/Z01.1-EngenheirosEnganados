@@ -19,6 +19,7 @@ entity CPU is
     );
 end entity;
 
+
 architecture arch of CPU is
 
   component Mux16 is
@@ -28,6 +29,15 @@ architecture arch of CPU is
       sel: in  STD_LOGIC;
       q:   out STD_LOGIC_VECTOR(15 downto 0)
       );
+  end component;
+
+  component DMux2Way16 is
+    port ( 
+        a:   in  STD_LOGIC_VECTOR(15 downto 0);
+        sel: in  STD_LOGIC;
+        q0:  out STD_LOGIC_VECTOR(15 downto 0);
+        q1:  STD_LOGIC_VECTOR(15 downto 0)
+        );
   end component;
 
   component ALU is
@@ -72,6 +82,7 @@ architecture arch of CPU is
       muxALUI_A                   : out STD_LOGIC;
       muxAM                       : out STD_LOGIC;
       registerSmux                : out STD_LOGIC;
+      dmux_AD                     : out STD_LOGIC;
       zx, nx, zy, ny, f, no       : out STD_LOGIC;
       loadA, loadD, loadM, loadPC, loadS : out STD_LOGIC
       );
@@ -103,14 +114,17 @@ architecture arch of CPU is
   signal increment: STD_LOGIC;
   signal c_loadS: STD_LOGIC;
   signal s_regSout: STD_LOGIC_VECTOR(15 downto 0);
+  signal c_dmux_AD: STD_LOGIC;
+  signal s_dmux_AD_D: STD_LOGIC_VECTOR(15 downto 0);
+  signal s_dmux_AD_A: STD_LOGIC_VECTOR(15 downto 0);
+
   
   
   
   begin
   
-  --ControlUnit port map(instruction, zr, ng, muxALUI_A, muxAM, registerSmux, zx, nx, zy, ny, f, no, loadA, loadD, loadM, loadPC, loadS);
 
-  Control_unit: ControlUnit port map(instruction, c_zr, c_ng, c_muxALUI_A, c_muxAM, c_registerSmux, c_zx, c_nx, c_zy, c_ny, c_f, c_no, c_loadA, c_loadD, writeM, c_loadPC, c_loadS); --instruction, loadM
+  Control_unit: ControlUnit port map(instruction, c_zr, c_ng, c_muxALUI_A, c_muxAM, c_registerSmux, c_dmux_AD, c_zx, c_nx, c_zy, c_ny, c_f, c_no, c_loadA, c_loadD, writeM, c_loadPC, c_loadS); --instruction, loadM
   
   mux_ALU: Mux16 port map(s_ALUout, instruction(15 downto 0), c_muxALUI_A, s_muxALUI_Aout); --instruction, sel
   
@@ -120,13 +134,15 @@ architecture arch of CPU is
   
   Program_Counter: pc port map(clock, increment, c_loadPC, reset, s_regAout, s_pcout); --clock, increment, reset
   
-  Register_A: Register16 port map(clock, s_muxALUI_Aout, c_loadA, s_regAout); --clock
+  Register_A: Register16 port map(clock, s_dmux_AD_A, c_loadA, s_regAout); --clock
   
-  Register_D: Register16 port map(clock, s_ALUout, c_loadD, s_regDout); --clock
+  Register_D: Register16 port map(clock, s_dmux_AD_D, c_loadD, s_regDout); --clock
   
   Register_S: Register16 port map(clock, s_ALUout, c_loadS, s_regSout);
 
   mux_registerS: Mux16 port map(s_regSout, s_regDout, c_registerSmux, s_registerSmux);
+
+  dmux_AD: DMux2Way16 port map(s_muxALUI_Aout, c_dmux_AD, s_dmux_AD_D, s_dmux_AD_A);
 
   addressM <= s_regAout(14 downto 0);
   outM <= s_ALUout;

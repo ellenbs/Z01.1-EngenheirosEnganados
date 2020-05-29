@@ -21,7 +21,8 @@ architecture tb of tb_ControlUnit is
         zr,ng                       : in STD_LOGIC;                      -- valores zr(se zero) e ng(se negativo) da ALU
         muxALUI_A                   : out STD_LOGIC;                     -- mux que seleciona entre instrução e ALU para reg. A
         muxAM                       : out STD_LOGIC;  
-        registerSmux                : out STD_LOGIC;                   -- mux que seleciona entre reg. A e Mem. RAM para ALU
+        registerSmux                : out STD_LOGIC;
+        dmux_AD                     : out STD_LOGIC;                   -- mux que seleciona entre reg. A e Mem. RAM para ALU
         zx, nx, zy, ny, f, no       : out STD_LOGIC;                     -- sinais de controle da ALU
         loadA, loadD, loadM, loadPC, loadS : out STD_LOGIC                      -- sinais de load do reg. A, reg. D, Mem. RAM e Program Counter
         );
@@ -33,12 +34,13 @@ architecture tb of tb_ControlUnit is
   signal muxAM                   : STD_LOGIC := '0';
   signal muxALUI_A                   : STD_LOGIC := '0';
   signal registerSmux                : STD_LOGIC :='0';
+  signal dmux_AD                     : STD_LOGIC :='0';
   signal zx, nx, zy, ny, f, no       : STD_LOGIC := '0';
   signal loadA, loadD,  loadM, loadPC, loadS : STD_LOGIC := '0';
 
 begin
 
-	uCU: ControlUnit port map(instruction, zr, ng, muxALUI_A, muxAM, registerSmux, zx, nx, zy, ny, f, no, loadA, loadD, loadM, loadPC, loadS);
+	uCU: ControlUnit port map(instruction, zr, ng, muxALUI_A, muxAM, registerSmux, dmux_AD, zx, nx, zy, ny, f, no, loadA, loadD, loadM, loadPC, loadS);
 
 	clk <= not clk after 100 ps;
 
@@ -125,6 +127,17 @@ begin
     instruction <= "00" & "0111111111111111";
     wait until clk = '1';
     assert(registerSmux = '0')
+      report "TESTE 14: registerSmux falso" severity error;
+
+    -- Teste: dMux_AD
+    instruction <= "10" & "1000000000000000";
+    wait until clk = '1';
+    assert(dmux_AD = '1')
+      report "TESTE 13: registerSmux" severity error;
+
+    instruction <= "00" & "0111111111111111";
+    wait until clk = '1';
+    assert(dmux_AD = '0')
       report "TESTE 14: registerSmux falso" severity error;
 
 
