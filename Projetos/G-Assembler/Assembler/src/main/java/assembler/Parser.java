@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Vector;
 
 /**
  * Encapsula o código de leitura. Carrega as instruções na linguagem assembly,
@@ -139,8 +140,10 @@ public class Parser {
      * @return um vetor de string contento os tokens da instrução (as partes do comando).
      */
     public String[] instruction(String command) {
-        /* TODO: implementar */
-    	return null;
+        command=command.replace(",", " ");
+        String[] vetor = command.split(" ");
+        //System.out.println(vetor);
+        return vetor;
     }
 
 
