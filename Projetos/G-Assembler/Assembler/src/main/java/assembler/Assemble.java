@@ -53,17 +53,18 @@ public class Assemble {
         Parser parser = new Parser(inputFile);
         int romAddress = 0;
         while (parser.advance()){
-            if (parser.commandType(parser.command()) == Parser.CommandType.L_COMMAND) {
+            if (parser.commandType(parser.command()).equals( Parser.CommandType.L_COMMAND) ){
                 String label = parser.label(parser.command());
+
                 if (!(table.contains(label))){
-                    System.out.println(label);
                     table.addEntry(label,romAddress);
                 }
 
                 // deve verificar se tal label já existe na tabela,
                 // se não, deve inserir. Caso contrário, ignorar.
+            }else {
+                romAddress++;
             }
-            romAddress++;
 
 
         }

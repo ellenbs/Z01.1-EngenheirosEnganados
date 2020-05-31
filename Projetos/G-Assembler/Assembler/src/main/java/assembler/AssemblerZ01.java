@@ -27,7 +27,7 @@ class AssemblerZ01 {
     static String outputFileHack = null;
     static String outputFileMif = null;
 
-    static private void argsParse (String[] args){
+    static private void argsParse (String[] args) {
         String help = "-i file.nasm -o outFile{.hack .mif} -v verbose -h help";
 
         if (args.length < 2) {  // checa se arquivo foi passado
