@@ -124,9 +124,8 @@ public class Parser {
      * @return o símbolo da instrução (sem os dois pontos).
      */
     public String label(String command) {
-        if (command.contains("$")){
-            command=command.replace("$","");
-        }else if (command.contains(":")){
+
+         if (command.contains(":")){
             command=command.replace(":","");
         }
         return command;
