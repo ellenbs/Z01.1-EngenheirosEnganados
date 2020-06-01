@@ -105,15 +105,11 @@ public class Parser {
      * @return somente o símbolo ou o valor número da instrução.
      */
     public String symbol(String command) {
-        if(command.contains("0")){
-            return "0";
-        }else if(command.contains("i")){
-            return "i";
-        }else if(command.contains("LOOP")) {
-            return "LOOP";
-        }else {
-            return "12345";
-        }
+        command=command.replace(",", " ");
+        command=command.replace("$", " ");
+        String[] vetor = command.split(" ");
+        System.out.println(vetor[2]);
+        return vetor[2];
 
     }
 

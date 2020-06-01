@@ -111,6 +111,7 @@ public class Assemble {
         String primeirosBits;
         String resto;
         Code code = new Code();
+        String[] mne=parser.instruction(parser.command());
         /**
          * Aqui devemos varrer o código nasm linha a linha
          * e gerar a string 'instruction' para cada linha
@@ -124,6 +125,7 @@ public class Assemble {
                 /* TODO: implementar */
                 case C_COMMAND:
                     primeirosBits = "10";
+                    instruction=primeirosBits+ code.comp(mne) + code.dest(mne) + code.jump(mne);
                     break;
                 case A_COMMAND:
                     primeirosBits = "00";
