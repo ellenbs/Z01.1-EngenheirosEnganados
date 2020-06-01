@@ -109,25 +109,8 @@ public class Code {
      * @return Valor em binário (String de 15 bits) representado com 0s e 1s.
      */
     public static String toBinary(String symbol) {
-        if(symbol.equals("0")){
-            return "0000000000000000";
-        }else if(symbol.equals("1")){
-            return "0000000000000001";
-        }else if(symbol.equals("10")){
-            return "0000000000001010";
-        }else if(symbol.equals("100")){
-            return "0000000001100100";
-        }else if(symbol.equals("1000")){
-            return "0000001111101000";
-        }else if(symbol.equals("21845")){
-            return "0101010101010101";
-        }else if(symbol.equals("32767")){
-            return "0111111111111111";
-        }else if(symbol.equals("32767")){
-            return "0111111111111111";
-        }else{
-            return "1111111111111111";
-        }
+        int value = Integer.valueOf(symbol);
+        String binary = Integer.toBinaryString(value);
+        return String.format("%1$16s", binary).replace(" ", "0");
     }
-
 }
