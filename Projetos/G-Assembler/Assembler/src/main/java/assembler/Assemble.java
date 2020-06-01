@@ -112,6 +112,7 @@ public class Assemble {
         String resto;
         Code code = new Code();
         String[] mne=parser.instruction(parser.command());
+        SymbolTable table = new SymbolTable();
         /**
          * Aqui devemos varrer o código nasm linha a linha
          * e gerar a string 'instruction' para cada linha
@@ -129,6 +130,22 @@ public class Assemble {
                     break;
                 case A_COMMAND:
                     primeirosBits = "00";
+                    boolean numeric = true;
+
+                    try {
+                        Double num = Double.parseDouble(parser.symbol(parser.command()));
+                    } catch (NumberFormatException e) {
+                        numeric = false;
+                    }
+
+                    if(numeric) {
+                        instruction = primeirosBits + code.toBinary(parser.symbol(parser.command()));
+                    } else {
+                        instruction = primeirosBits + code.toBinary((table.getAddress(parser.command())).toString());
+
+                    }
+
+
 
 
                     break;
