@@ -108,7 +108,7 @@ public class Parser {
         command=command.replace(",", " ");
         command=command.replace("$", " ");
         String[] vetor = command.split(" ");
-        System.out.println(vetor[2]);
+        //System.out.println(vetor[2]);
         return vetor[2];
 
     }

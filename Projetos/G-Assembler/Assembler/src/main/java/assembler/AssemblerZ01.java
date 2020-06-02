@@ -36,7 +36,7 @@ class AssemblerZ01 {
         String help = "-i file.nasm -o outFile{.hack .mif} -v verbose -h help";
 
         if (args.length < 2) {  // checa se arquivo foi passado
-            System.out.println(help);
+           // System.out.println(help);
             System.exit(01);
         }
 

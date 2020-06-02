@@ -126,37 +126,36 @@ public class Assemble {
                 /* TODO: implementar */
                 case C_COMMAND:
                     primeirosBits = "10";
-                    instruction=primeirosBits+ code.comp(mne) + code.dest(mne) + code.jump(mne);
-                    break;
+                    instruction= primeirosBits+ code.comp(mne) +code.dest(mne) + code.jump(mne);
+
+                break;
                 case A_COMMAND:
                     primeirosBits = "00";
                     boolean numeric = true;
+                    String simbolo = parser.symbol(parser.command());
 
                     try {
-                        Double num = Double.parseDouble(parser.symbol(parser.command()));
+                        Double num = Double.parseDouble(simbolo);
                     } catch (NumberFormatException e) {
                         numeric = false;
                     }
-
                     if(numeric) {
                         instruction = primeirosBits + code.toBinary(parser.symbol(parser.command()));
                     } else {
-                        instruction = primeirosBits + code.toBinary((table.getAddress(parser.command())).toString());
+                        instruction = primeirosBits +  code.toBinary((table.getAddress(simbolo).toString()));
 
                     }
-
-
-
-
+                    System.out.println(instruction);
                     break;
                 default:
                     continue;
+
             }
             // Escreve no arquivo .hack a instrução
             if(outHACK!=null) {
                 outHACK.println(instruction);
             }
-            instruction = null;
+            //instruction = null;
         }
     }
 

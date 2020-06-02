@@ -68,7 +68,7 @@ public class Code {
             }
         }
         String resultado= ("0"+m+d+a);
-        System.out.println(resultado);
+      //  System.out.println(resultado);
         return (resultado);
         }
 
