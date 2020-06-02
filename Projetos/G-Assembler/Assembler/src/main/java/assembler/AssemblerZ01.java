@@ -20,6 +20,10 @@ import java.util.*;
  */
 class AssemblerZ01 {
 
+    public static boolean isVerbose() {
+        return verbose;
+    }
+
     static boolean verbose;              // flag que especifica se mensagens de verbose são impressas
 
     static String inputFile;
@@ -27,11 +31,12 @@ class AssemblerZ01 {
     static String outputFileHack = null;
     static String outputFileMif = null;
 
-    static private void argsParse (String[] args){
+    static private void argsParse (String[] args) {
+
         String help = "-i file.nasm -o outFile{.hack .mif} -v verbose -h help";
 
         if (args.length < 2) {  // checa se arquivo foi passado
-            System.out.println(help);
+           // System.out.println(help);
             System.exit(01);
         }
 

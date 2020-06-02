@@ -53,13 +53,20 @@ public class Assemble {
         Parser parser = new Parser(inputFile);
         int romAddress = 0;
         while (parser.advance()){
-            if (parser.commandType(parser.command()) == Parser.CommandType.L_COMMAND) {
+            if (parser.commandType(parser.command()).equals( Parser.CommandType.L_COMMAND) ){
                 String label = parser.label(parser.command());
-                /* TODO: implementar */
+
+                if (!(table.contains(label))){
+                    table.addEntry(label,romAddress);
+                }
+
                 // deve verificar se tal label já existe na tabela,
                 // se não, deve inserir. Caso contrário, ignorar.
+            }else {
+                romAddress++;
             }
-            romAddress++;
+
+
         }
         parser.close();
 
@@ -75,10 +82,16 @@ public class Assemble {
                 String symbol = parser.symbol(parser.command());
                 if (Character.isDigit(symbol.charAt(0))){
                     /* TODO: implementar */
+                    if (!(table.contains(symbol))){
+                        table.addEntry(symbol, ramAddress);
+                    }
+
                     // deve verificar se tal símbolo já existe na tabela,
                     // se não, deve inserir associando um endereço de
                     // memória RAM a ele.
                 }
+                ramAddress++;
+
             }
         }
         parser.close();
@@ -95,7 +108,11 @@ public class Assemble {
     public void generateMachineCode() throws FileNotFoundException, IOException{
         Parser parser = new Parser(inputFile);  // abre o arquivo e aponta para o começo
         String instruction  = "";
-
+        String primeirosBits;
+        String resto;
+        Code code = new Code();
+        String[] mne=parser.instruction(parser.command());
+        SymbolTable table = new SymbolTable();
         /**
          * Aqui devemos varrer o código nasm linha a linha
          * e gerar a string 'instruction' para cada linha
@@ -103,20 +120,42 @@ public class Assemble {
          * seguindo o instruction set
          */
         while (parser.advance()){
+
+
             switch (parser.commandType(parser.command())){
                 /* TODO: implementar */
                 case C_COMMAND:
+                    primeirosBits = "10";
+                    instruction= primeirosBits+ code.comp(mne) +code.dest(mne) + code.jump(mne);
+
                 break;
-            case A_COMMAND:
-                break;
-            default:
-                continue;
+                case A_COMMAND:
+                    primeirosBits = "00";
+                    boolean numeric = true;
+                    String simbolo = parser.symbol(parser.command());
+
+                    try {
+                        Double num = Double.parseDouble(simbolo);
+                    } catch (NumberFormatException e) {
+                        numeric = false;
+                    }
+                    if(numeric) {
+                        instruction = primeirosBits + code.toBinary(parser.symbol(parser.command()));
+                    } else {
+                        instruction = primeirosBits +  code.toBinary((table.getAddress(simbolo).toString()));
+
+                    }
+                    System.out.println(instruction);
+                    break;
+                default:
+                    continue;
+
             }
             // Escreve no arquivo .hack a instrução
             if(outHACK!=null) {
                 outHACK.println(instruction);
             }
-            instruction = null;
+            //instruction = null;
         }
     }
 
