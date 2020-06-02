@@ -80,7 +80,95 @@ public class Code {
      */
     public static String comp(String[] mnemnonic) {
         switch (mnemnonic[0]){
-            default    : return "0000";
+            case "incw":
+                switch (mnemnonic[1]){
+                    case "%A": return "000110111";
+                    case "(%A)": return "001110111";
+                    case "%D": return "000011111";
+
+                }
+            case "decw":
+                switch (mnemnonic[1]){
+                    case "%A": return "000110010";
+                    case "(%A)": return "001110000";
+                    case "%D": return "000001110";
+
+                }
+            case "movw":
+                switch (mnemnonic[1]){
+                    case "%A": return "000110000";
+                    case "(%A)": return "001110000";
+                    case "%D": return "000001100";
+
+                }
+            case "addw":
+                switch (mnemnonic[1]){
+                    case "%A": switch (mnemnonic[2]){
+                        case "%D": return "000000010";
+                    }
+
+                    case "(%A)": switch (mnemnonic[2]){
+                        case "%D": return "001000010";
+                    };
+
+                    case "$1": return "001110111";
+
+                }
+            case "notw":
+                switch (mnemnonic[1]){
+                    case "%A": return "000110001";
+                    case "(%A)": return "000110001";
+                    case "%D": return "000001101";
+
+                }
+            case "negw":
+                switch (mnemnonic[1]){
+                    case "%A": return "000110011";
+                    case "(%A)": return "001110011";
+                    case "%D": return "000001111";
+
+                }
+                case "subw":
+                switch (mnemnonic[1]){
+                    case "%D": switch (mnemnonic[2]){
+                        case "(%A)": return "001010011";
+                    }
+
+                    case "(%A)": switch (mnemnonic[2]){
+                        case "$1": return "001110010";
+                    }
+                }
+            case "rsubw":
+                switch (mnemnonic[1]){
+                    case "%D": switch (mnemnonic[2]){
+                        case "(%A)": return "001000111";
+                    }
+                }
+            case "orw":
+                switch (mnemnonic[1]){
+                    case "%D": switch (mnemnonic[2]){
+                        case "(%A)": return "001010101";
+                        case "%A": return "000010101";
+                    }case "(%A)": switch (mnemnonic[2]){
+                        case "%D": return "001010101";
+                        //case "%A": return "000010101";
+                    }
+                }
+            case "andw":
+                switch (mnemnonic[1]){
+                    case "(%A)": switch (mnemnonic[2]){case "%D": return "001000000";}
+                    case "%D": switch (mnemnonic[2]){case "%A": return "000000000";}
+                }
+
+            case "jmp": return "000001100";
+            case "je": return "000001100";
+            case "jne": return "000001100";
+            case "jg": return "000001100";
+            case "jge": return "000001100";
+            case "jl": return "000001100";
+            case "jle": return "000001100";
+
+            default    : return "000000000";
         }
     }
 
