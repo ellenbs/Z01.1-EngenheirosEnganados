@@ -38,6 +38,7 @@ public class CodeTest  {
 			org.junit.Assume.assumeNotNull( Code.toBinary("0") );		// ignora test
 		} catch(Exception e) {
 			org.junit.Assume.assumeNoException(e);
+			System.out.println("toBin");
 		}
 
 		try {
@@ -51,6 +52,8 @@ public class CodeTest  {
 			assertTrue(Code.toBinary("32767").equals("0111111111111111"));
 			assertTrue(Code.toBinary("65535").equals("1111111111111111"));
 		} catch(Exception e) {
+			System.out.println("toBin");
+
 			e.printStackTrace();
 		}
 	}
@@ -65,6 +68,8 @@ public class CodeTest  {
 			org.junit.Assume.assumeNotNull( Code.dest(new String[] {"nop"}) );		// ignora test
 		} catch(Exception e) {
 			org.junit.Assume.assumeNoException(e);
+			System.out.println("dest");
+
 		}
 		try {
 
@@ -109,6 +114,8 @@ public class CodeTest  {
 
 		} catch(Exception e) {
 			e.printStackTrace();
+			System.out.println("dest");
+
 		}
 
 	}
@@ -164,6 +171,8 @@ public class CodeTest  {
 
 		} catch(Exception e) {
 			org.junit.Assume.assumeNoException(e);
+			System.out.println("comp");
+
 		}
 	}
 
@@ -177,6 +186,8 @@ public class CodeTest  {
 			org.junit.Assume.assumeNotNull( Code.jump(new String[] {"nop"}) );		// ignora test
 		} catch(Exception e) {
 			org.junit.Assume.assumeNoException(e);
+			System.out.println("jmp");
+
 		}
 
 		try {
@@ -211,6 +222,8 @@ public class CodeTest  {
 
 		} catch(Exception e) {
 			e.printStackTrace();
+			System.out.println("jmp");
+
 		}
 
 	}

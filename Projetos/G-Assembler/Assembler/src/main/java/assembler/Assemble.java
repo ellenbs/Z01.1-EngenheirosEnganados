@@ -10,6 +10,8 @@
 package assembler;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Faz a geração do código gerenciando os demais módulos
@@ -55,7 +57,6 @@ public class Assemble {
         while (parser.advance()){
             if (parser.commandType(parser.command()).equals( Parser.CommandType.L_COMMAND) ){
                 String label = parser.label(parser.command());
-
                 if (!(table.contains(label))){
                     table.addEntry(label,romAddress);
                 }
@@ -84,6 +85,8 @@ public class Assemble {
                     /* TODO: implementar */
                     if (!(table.contains(symbol))){
                         table.addEntry(symbol, ramAddress);
+                        System.out.println(symbol);
+
                     }
 
                     // deve verificar se tal símbolo já existe na tabela,
@@ -97,6 +100,8 @@ public class Assemble {
         parser.close();
         return table;
     }
+
+
 
     /**
      * Segundo passo para a geração do código de máquina
@@ -112,7 +117,8 @@ public class Assemble {
         String resto;
         Code code = new Code();
         String[] mne=parser.instruction(parser.command());
-        SymbolTable table = new SymbolTable();
+        String bin;
+
         /**
          * Aqui devemos varrer o código nasm linha a linha
          * e gerar a string 'instruction' para cada linha
@@ -126,13 +132,16 @@ public class Assemble {
                 /* TODO: implementar */
                 case C_COMMAND:
                     primeirosBits = "10";
-                    instruction= primeirosBits+ code.comp(mne) +code.dest(mne) + code.jump(mne);
+                    instruction= primeirosBits + code.comp(mne) + code.dest(mne) + code.jump(mne);
 
                 break;
                 case A_COMMAND:
                     primeirosBits = "00";
                     boolean numeric = true;
                     String simbolo = parser.symbol(parser.command());
+
+                   // table.forEach((k,v) -> System.out.println("key: "+k+" value:"+v));
+                    //System.out.println("oiiiii");
 
                     try {
                         Double num = Double.parseDouble(simbolo);
@@ -145,7 +154,9 @@ public class Assemble {
                         instruction = primeirosBits +  code.toBinary((table.getAddress(simbolo).toString()));
 
                     }
-                    System.out.println(instruction);
+                   // System.out.println(instruction);
+                  // instruction=primeirosBits+bin;
+                   // System.out.println(instruction);
                     break;
                 default:
                     continue;

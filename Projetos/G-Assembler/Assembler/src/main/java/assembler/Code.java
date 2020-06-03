@@ -119,7 +119,6 @@ public class Code {
                     case "%A": return "000110001";
                     case "(%A)": return "000110001";
                     case "%D": return "000001101";
-
                 }
             case "negw":
                 switch (mnemnonic[1]){
