@@ -4,7 +4,6 @@
  * Created by Luciano Soares <lpsoares@insper.edu.br> 
  * Date: 04/02/2017
  */
-
 package assembler;
 
 import java.io.*;
@@ -36,7 +35,7 @@ class AssemblerZ01 {
         String help = "-i file.nasm -o outFile{.hack .mif} -v verbose -h help";
 
         if (args.length < 2) {  // checa se arquivo foi passado
-           // System.out.println(help);
+            // System.out.println(help);
             System.exit(01);
         }
 
@@ -78,8 +77,8 @@ class AssemblerZ01 {
         try {
             // Cria objeto assembler auxiliar
             Assemble assembler = new Assemble(  inputFile,
-                                                outputFileHack,
-                                                verbose);
+                    outputFileHack,
+                    verbose);
 
             // Cria tabela de símbolos
             assembler.fillSymbolTable();
@@ -93,14 +92,13 @@ class AssemblerZ01 {
             System.exit(0);
 
         } catch (FileNotFoundException ex){
-        	System.out.println("[ERRO] Arquivo \'" + inputFile + "\' encontrado" + "args: \n " +args[0] + args[1] + args[2]);
+            System.out.println("[ERRO] Arquivo \'" + inputFile + "\' encontrado" + "args: \n " +args[0] + args[1] + args[2]);
             System.exit(01);
         } catch (IOException ex) {
-        	System.out.println("[ERRO] Uma excessao de i/o foi lancada");
+            System.out.println("[ERRO] Uma excessao de i/o foi lancada");
             System.exit(01);
         }
 
     }
 }
-
 

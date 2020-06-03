@@ -1,17 +1,7 @@
-/**
- * Curso: Elementos de Sistemas
- * Arquivo: Assemble.java
- * Created by Luciano <lpsoares@insper.edu.br>
- * Date: 04/02/2017
- *
- * 2018 @ Rafael Corsi
- */
 
 package assembler;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Faz a geração do código gerenciando os demais módulos
@@ -35,7 +25,7 @@ public class Assemble {
         inputFile  = inFile;
         hackFile   = new File(outFileHack);                      // Cria arquivo de saída .hack
         outHACK    = new PrintWriter(new FileWriter(hackFile));  // Cria saída do print para
-                                                                 // o arquivo hackfile
+        // o arquivo hackfile
         table      = new SymbolTable();                          // Cria e inicializa a tabela de simbolos
     }
 
@@ -57,6 +47,7 @@ public class Assemble {
         while (parser.advance()){
             if (parser.commandType(parser.command()).equals( Parser.CommandType.L_COMMAND) ){
                 String label = parser.label(parser.command());
+
                 if (!(table.contains(label))){
                     table.addEntry(label,romAddress);
                 }
@@ -85,8 +76,6 @@ public class Assemble {
                     /* TODO: implementar */
                     if (!(table.contains(symbol))){
                         table.addEntry(symbol, ramAddress);
-                        System.out.println(symbol);
-
                     }
 
                     // deve verificar se tal símbolo já existe na tabela,
@@ -100,9 +89,6 @@ public class Assemble {
         parser.close();
         return table;
     }
-
-
-
     /**
      * Segundo passo para a geração do código de máquina
      * Varre o código em busca de instruções do tipo A, C
@@ -113,12 +99,9 @@ public class Assemble {
     public void generateMachineCode() throws FileNotFoundException, IOException{
         Parser parser = new Parser(inputFile);  // abre o arquivo e aponta para o começo
         String instruction  = "";
+        String command;
+        String symbol;
         String primeirosBits;
-        String resto;
-        Code code = new Code();
-        String[] mne=parser.instruction(parser.command());
-        String bin;
-
         /**
          * Aqui devemos varrer o código nasm linha a linha
          * e gerar a string 'instruction' para cada linha
@@ -126,22 +109,22 @@ public class Assemble {
          * seguindo o instruction set
          */
         while (parser.advance()){
-
-
+            command = parser.command();
             switch (parser.commandType(parser.command())){
                 /* TODO: implementar */
-                case C_COMMAND:
-                    primeirosBits = "10";
-                    instruction= primeirosBits + code.comp(mne) + code.dest(mne) + code.jump(mne);
 
-                break;
+                case C_COMMAND:
+                    String[] mne=parser.instruction(parser.command());
+
+                    primeirosBits = "10";
+                    instruction= primeirosBits+ Code.comp(mne) +Code.dest(mne) + Code.jump(mne);
+
+                    break;
                 case A_COMMAND:
+
                     primeirosBits = "00";
                     boolean numeric = true;
                     String simbolo = parser.symbol(parser.command());
-
-                   // table.forEach((k,v) -> System.out.println("key: "+k+" value:"+v));
-                    //System.out.println("oiiiii");
 
                     try {
                         Double num = Double.parseDouble(simbolo);
@@ -149,24 +132,25 @@ public class Assemble {
                         numeric = false;
                     }
                     if(numeric) {
-                        instruction = primeirosBits + code.toBinary(parser.symbol(parser.command()));
+                        instruction = primeirosBits + Code.toBinary(parser.symbol(parser.command()));
                     } else {
-                        instruction = primeirosBits +  code.toBinary((table.getAddress(simbolo).toString()));
+                        instruction = primeirosBits +  Code.toBinary((table.getAddress(simbolo).toString()));
 
                     }
-                   // System.out.println(instruction);
-                  // instruction=primeirosBits+bin;
-                   // System.out.println(instruction);
+                    System.out.println(instruction);
+
+
                     break;
                 default:
                     continue;
-
             }
             // Escreve no arquivo .hack a instrução
-            if(outHACK!=null) {
-                outHACK.println(instruction);
-            }
-            //instruction = null;
+            //if(outHACK!=null) {
+            outHACK.println(instruction);
+            //}
+            instruction = null;
+            command = null;
+            symbol = null;
         }
     }
 
