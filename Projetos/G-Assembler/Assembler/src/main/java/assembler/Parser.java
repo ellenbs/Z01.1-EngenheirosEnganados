@@ -105,15 +105,11 @@ public class Parser {
      * @return somente o símbolo ou o valor número da instrução.
      */
     public String symbol(String command) {
-        if(command.contains("0")){
-            return "0";
-        }else if(command.contains("i")){
-            return "i";
-        }else if(command.contains("LOOP")) {
-            return "LOOP";
-        }else {
-            return "12345";
-        }
+        command=command.replace(",", " ");
+        command=command.replace("$", " ");
+        String[] vetor = command.split(" ");
+        //System.out.println(vetor[2]);
+        return vetor[2];
 
     }
 
@@ -124,26 +120,31 @@ public class Parser {
      * @return o símbolo da instrução (sem os dois pontos).
      */
     public String label(String command) {
-        if(command.contains("abc")){
-            return "abc";
-        }else if(command.contains("TESTE")){
-            return "TESTE";
-        }else {
-            return "Z0";
+
+        if (command.contains(":")){
+            command=command.replace(":","");
         }
+        return command;
     }
 
-    /**
-     * Separa os mnemônicos da instrução fornecida em tokens em um vetor de Strings.
-     * Deve ser chamado somente quando CommandType () é C_COMMAND.
-     * @param  command instrução a ser analisada.
-     * @return um vetor de string contento os tokens da instrução (as partes do comando).
-     */
     public String[] instruction(String command) {
-        command=command.replace(",", " ");
-        String[] vetor = command.split(" ");
-        //System.out.println(vetor);
-        return vetor;
+        /* TODO: implementar */
+        try {
+            command = command.replace("  ", " ");
+            command = command.replace("   ", " ");
+            command = command.replace("    ", " ");
+            command = command.replace("     ", " ");
+            command = command.replace(" ", ";");
+            command = command.replace(",", ";");
+            command = command.replace(";;", ";");
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        String[] instruction = command.split(";");
+
+        return instruction;
     }
 
 
