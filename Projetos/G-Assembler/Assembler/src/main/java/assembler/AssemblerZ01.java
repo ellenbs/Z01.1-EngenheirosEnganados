@@ -19,9 +19,7 @@ import java.util.*;
  */
 class AssemblerZ01 {
 
-    public static boolean isVerbose() {
-        return verbose;
-    }
+
 
     static boolean verbose;              // flag que especifica se mensagens de verbose são impressas
 
@@ -29,6 +27,10 @@ class AssemblerZ01 {
     static String outputFile = null;
     static String outputFileHack = null;
     static String outputFileMif = null;
+
+    public static boolean isVerbose() {
+        return verbose;
+    }
 
     static private void argsParse (String[] args) {
 
@@ -76,9 +78,7 @@ class AssemblerZ01 {
         // Starts to read file and generates de outputs
         try {
             // Cria objeto assembler auxiliar
-            Assemble assembler = new Assemble(  inputFile,
-                    outputFileHack,
-                    verbose);
+            Assemble assembler = new Assemble(  inputFile, outputFileHack, verbose);
 
             // Cria tabela de símbolos
             assembler.fillSymbolTable();

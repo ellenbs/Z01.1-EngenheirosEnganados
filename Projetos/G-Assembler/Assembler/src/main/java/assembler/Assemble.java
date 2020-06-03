@@ -3,6 +3,8 @@ package assembler;
 
 import java.io.*;
 
+import static assembler.AssemblerZ01.verbose;
+
 /**
  * Faz a geração do código gerenciando os demais módulos
  */
@@ -50,6 +52,9 @@ public class Assemble {
 
                 if (!(table.contains(label))){
                     table.addEntry(label,romAddress);
+                    if (verbose){
+                        System.out.println("adicionando label" + label + "`a tabela");
+                    }
                 }
 
                 // deve verificar se tal label já existe na tabela,
@@ -76,6 +81,9 @@ public class Assemble {
                     /* TODO: implementar */
                     if (!(table.contains(symbol))){
                         table.addEntry(symbol, ramAddress);
+                        if (verbose){
+                            System.out.println("adicionando simbolo"+symbol+" `a tabela");
+                        }
                     }
 
                     // deve verificar se tal símbolo já existe na tabela,
@@ -118,6 +126,9 @@ public class Assemble {
 
                     primeirosBits = "10";
                     instruction= primeirosBits+ Code.comp(mne) +Code.dest(mne) + Code.jump(mne);
+                    if (verbose){
+                        System.out.println("convertendo " + command +" em "+ instruction);
+                    }
 
                     break;
                 case A_COMMAND:
@@ -137,7 +148,9 @@ public class Assemble {
                         instruction = primeirosBits +  Code.toBinary((table.getAddress(simbolo).toString()));
 
                     }
-                    System.out.println(instruction);
+                    if (verbose){
+                        System.out.println("convertendo " + command +" em "+ instruction);
+                    }
 
 
                     break;
