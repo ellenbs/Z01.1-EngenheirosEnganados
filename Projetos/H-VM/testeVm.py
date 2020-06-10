@@ -63,6 +63,8 @@ if __name__ == "__main__":
     pwd = os.path.dirname(os.path.abspath(__file__))
     testDir = pwd+"/tests/"
     vmDir = [pwd+"/src/vm/", pwd+"/src/vmExamples/"]
+
+    vmDir = [pwd+"/src/vm/", ""]
     nasm = pwd+"/bin/nasm/"
     hack = pwd+"/bin/hack/"
 

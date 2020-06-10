@@ -120,10 +120,25 @@ public class Parser {
      * @return o símbolo da instrução (sem os dois pontos).
      */
     public String label(String command) {
+        boolean numeric = true;
+        String commandX = "X";
 
-        if (command.contains(":")){
-            command=command.replace(":","");
-        }
+        if (command.contains(":")) {
+            command = command.replace(":", "");
+        } else if (command.contains("$")) {
+            commandX = command.replace("$", "");
+            System.out.println(commandX);
+            try {
+                Double num = Double.parseDouble(command);
+            } catch (NumberFormatException e) {
+                numeric = false;
+            }
+            if (!(numeric)) {
+                command = commandX;
+
+            }}
+        System.out.println(commandX);
+
         return command;
     }
 

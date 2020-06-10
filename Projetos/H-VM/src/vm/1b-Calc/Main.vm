@@ -3,15 +3,12 @@
 //              2018a
 // ---------------------------------
 //
-// Projeto      : Projeto I-VM
-// File         : 2a-Calculadora
-//
 //  Escreva um código em VM que realize a seguinte
 //  operação:
 //    (14+2)-(123-1)
 //
 //  O resultado deve ser salvo em temp 0
-//
+//  
 //  ****************************************************
 //  ** A ideia é deixar o Z01 resolver, você não deve **
 //  ** simplificar a equação                          **
