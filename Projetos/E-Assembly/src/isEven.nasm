@@ -15,7 +15,7 @@ leaw $0, %A
 movw $1, (%A)
 leaw $END, %A
 je
-nop
+;nop
 leaw $0 , %A
 movw $0 , (%A)
 END:

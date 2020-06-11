@@ -110,6 +110,8 @@ public class Assemble {
         String command;
         String symbol;
         String primeirosBits;
+        String antigo = "000000000000000000";
+        String novo = "000000000000000000";
         /**
          * Aqui devemos varrer o código nasm linha a linha
          * e gerar a string 'instruction' para cada linha
@@ -117,6 +119,7 @@ public class Assemble {
          * seguindo o instruction set
          */
         while (parser.advance()){
+            antigo=novo;
             command = parser.command();
             switch (parser.commandType(parser.command())){
                 /* TODO: implementar */
@@ -151,6 +154,15 @@ public class Assemble {
                     if (verbose){
                         System.out.println("convertendo " + command +" em "+ instruction);
                     }
+
+                    novo=instruction;
+
+                    String bitsantigos=antigo.substring(15);
+                    String bitsnovos=novo.substring(12);
+
+                    if (!((bitsantigos.equals("000")) &&( bitsnovos.equals("000000")))){
+                        System.out.println("Faltou nop!!!!");
+                }
 
 
                     break;
