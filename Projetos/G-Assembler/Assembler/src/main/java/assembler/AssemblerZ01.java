@@ -34,7 +34,7 @@ class AssemblerZ01 {
 
     static private void argsParse (String[] args) {
 
-        String help = "-i file.nasm -o outFile{.hack .mif} -v verbose -h help";
+        String help = "-i file.nasm -o outFile{.hack .mif} -v verbose -h help";// testei com o isEven
 
         if (args.length < 2) {  // checa se arquivo foi passado
             // System.out.println(help);

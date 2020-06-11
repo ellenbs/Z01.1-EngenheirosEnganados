@@ -16,7 +16,7 @@ movw $1, (%A)
 leaw $END, %A
 je
 ;nop
-
+movw $0,%A
 movw $0 , (%A)
 END:
 

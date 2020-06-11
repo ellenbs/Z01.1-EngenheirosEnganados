@@ -136,18 +136,19 @@ public class Assemble {
 
                     String bitsantigos=antigo.substring(15);
                     char bitum = antigo.charAt(0);
+                    char bitumn = antigo.charAt(0);
+
                     String bitsnovos=instruction.substring(12);
 
-                    if ((!(bitsantigos.equals("000")) && (!(bitsnovos.equals("000000"))) && (bitum=='1'))){
-                        System.out.println(antigo);
-                        System.out.println(novo);
+                    if ((!(bitsantigos.equals("000")) && (!(bitsnovos.equals("000000"))) && (bitum=='1') && (bitumn=='1'))){
+                       // System.out.println(bitsantigos);
+                        //System.out.println(bitsnovos);
 
-                        System.out.println("Faltou nop!!!! --> coloquei");
-                        instruction = "100000000000000000" + "\n" + novo;
+                        System.out.println("Faltou nop depois do jump!!!! ");
+                       // instruction = "100000000000000000" + "\n" + novo;
                     }
-                    novo=instruction;
 
-                    //novo=instruction;
+                    novo=instruction;
 
 
 
@@ -165,14 +166,17 @@ public class Assemble {
                     }
                     if(numeric) {
                         instruction = primeirosBits + Code.toBinary(parser.symbol(parser.command()));
+                  //      novo=instruction;
+
                     } else {
                         instruction = primeirosBits +  Code.toBinary((table.getAddress(simbolo).toString()));
+
+                       // novo=instruction;
 
                     }
                     if (verbose){
                         System.out.println("convertendo " + command +" em "+ instruction);
                     }
-                  //  novo=instruction;
 
 
                     break;
