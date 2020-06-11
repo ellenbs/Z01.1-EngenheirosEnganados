@@ -133,6 +133,24 @@ public class Assemble {
                         System.out.println("convertendo " + command +" em "+ instruction);
                     }
 
+
+                    String bitsantigos=antigo.substring(15);
+                    char bitum = antigo.charAt(0);
+                    String bitsnovos=instruction.substring(12);
+
+                    if ((!(bitsantigos.equals("000")) && (!(bitsnovos.equals("000000"))) && (bitum=='1'))){
+                        System.out.println(antigo);
+                        System.out.println(novo);
+
+                        System.out.println("Faltou nop!!!! --> coloquei");
+                        instruction = "100000000000000000" + "\n" + novo;
+                    }
+                    novo=instruction;
+
+                    //novo=instruction;
+
+
+
                     break;
                 case A_COMMAND:
 
@@ -154,21 +172,19 @@ public class Assemble {
                     if (verbose){
                         System.out.println("convertendo " + command +" em "+ instruction);
                     }
-
-                    novo=instruction;
-
-                    String bitsantigos=antigo.substring(15);
-                    String bitsnovos=novo.substring(12);
-
-                    if (!((bitsantigos.equals("000")) &&( bitsnovos.equals("000000")))){
-                        System.out.println("Faltou nop!!!!");
-                }
+                  //  novo=instruction;
 
 
                     break;
+
                 default:
+                   // novo=instruction;
+
                     continue;
+
             }
+        //   novo=instruction;
+
             // Escreve no arquivo .hack a instrução
             //if(outHACK!=null) {
             outHACK.println(instruction);
