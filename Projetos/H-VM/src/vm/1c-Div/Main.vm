@@ -14,8 +14,35 @@
 
 function Main.main 0
 
-   
+push temp 0
+pop temp 4
+push constant 0
+pop temp 3
+
+label loop
+  push temp 4
+  push temp 1
+  sub
+  pop temp 4
+  push temp 4
+  push constant 1
+  neg
+  gt
+  if-goto not_end
+  goto end
+
+  label not_end
+    push constant 1
+    push temp 3
+    add
+    pop temp 3 
+    goto loop  
+
 label end
+
+
+
+
 
 
 // esse loop sempre deve existir!
